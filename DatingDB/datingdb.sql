@@ -10,7 +10,7 @@ CREATE DATABASE DatingDB
     LC_CTYPE = 'English_United States.1252'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
-	
+
 CREATE TABLE profession(
 	prof_id bigserial,
 	profession varchar(50),
@@ -23,8 +23,11 @@ CREATE TABLE zip_code (
 	city varchar(50),
 	province varchar(50),
 	CONSTRAINT zip_code_key PRIMARY KEY (zip_code),
-	CONSTRAINT check_zip_code_not_zero CHECK (zip_code <= 4 )
+	CONSTRAINT check_zip_code CHECK (zip_code < 10000 )
 );
+
+DELETE FROM zip_code;
+DROP TABLE zip_code;
 
 CREATE TABLE status (
 	status_id bigserial,
@@ -67,3 +70,45 @@ CREATE TABLE contact_seeking (
 	contact_id int REFERENCES my_contacts (contact_id),
 	seeking_id int REFERENCES seeking (seeking_id)
 );
+
+INSERT INTO profession (profession)
+VALUES 	('Software Developer'),
+		('Public Relations'),
+		('Human Resources'),
+		('Accounting'),
+		('Manufacturing'),
+		('Administration'),
+		('Purchasing '),
+		('Construction'),
+		('Medical Assistance'),
+		('Dentists'),
+		('IT Support '),
+		('IT Helpdesk '),
+		('Retail Sales'),
+		('Marketing'),
+		('Airline Pilots'),
+		('Shareholders Services');
+		
+INSERT INTO zip_code (zip_code, city, province )
+VALUES 	(1251,'Bhisho','Eastern Cape'),
+		(2976,'Bloemfontein','Free State'),
+		(3612,'Johannesburg','Gauteng'),
+		(2936,'	Pietermaritzburg','KwaZulu-Natal'),
+		(2354,'Polokwane','Limpopo'),
+		(3125,'Nelspruit','Mpumalanga'),
+		(4422,'Mahikeng','North West'),
+		(3527,'Kimberley','Northern Cape'),
+		(2916,'Cape Town','Western Cape'),
+		(5034,'East London','Eastern Cape'),
+		(6314,'Welkom','Free State'),
+		(1244,'Pretoria','Gauteng'),
+		(5217,'Durban','KwaZulu-Natal'),
+		(1518,'Louis','Limpopo'),
+		(3338,'Bethal','Mpumalanga'),
+		(2319,'Brits','North West'),
+		(1743,'Springbok','Northern Cape'),
+		(2124,'Paarl','Western Cape');
+		
+SELECT * FROM profession		
+SELECT * FROM my_contacts
+SELECT * FROM zip_code
