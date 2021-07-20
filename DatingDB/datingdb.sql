@@ -115,8 +115,26 @@ VALUES 	('Single'),
 		('Married'),
 		('Complicated'),
 		('Engaged');
-
+		
+INSERT INTO interests (interest)
+VALUES 	('Travelling'),
+		('Cooking'),
+		('Gardening'),
+		('Dancing'),
+		('Hacker'),
+		('Judo'),
+		('Dominoes'),
+		('Cribbage'),
+		('Acting'),
+		('Arts'),
+		('Writting'),
+		('Sports'),
+		('Blogging'),
+		('Chess'),
+		('Video Games');
+		
 SELECT * FROM profession		
 SELECT * FROM my_contacts
 SELECT * FROM zip_code
 SELECT * FROM status
+SELECT * FROM interests
