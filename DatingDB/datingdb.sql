@@ -55,9 +55,16 @@ CREATE TABLE interests(
 	CONSTRAINT interest_key PRIMARY KEY (interest_id)	
 );
 
+CREATE TABLE interests2(
+	interest2_id bigserial,
+	interest2 varchar(50),
+	CONSTRAINT interest2_key PRIMARY KEY (interest2_id)	
+);
+
 CREATE TABLE contact_interest (
 	contact_id int REFERENCES my_contacts (contact_id),
-	interest_id int REFERENCES interests (interest_id)
+	interest_id int REFERENCES interests (interest_id),
+	interest2_id int REFERENCES interests2 (interest2_id)
 );
 
 CREATE TABLE seeking(
@@ -133,8 +140,33 @@ VALUES 	('Travelling'),
 		('Chess'),
 		('Video Games');
 		
+INSERT INTO interests2 (interest2)
+VALUES 	('Reading'),
+		('Babysitting'),
+		('Beatboxing'),
+		('Candy Making'),
+		('Building'),
+		('Cleaning'),
+		('Collecting'),
+		('Diving'),
+		('Fashion'),
+		('Hacking'),
+		('Inventing'),
+		('Knot Tying'),
+		('Makeup'),
+		('Music'),
+		('Painting');
+
+
+INSERT INTO seeking (seeking)
+VALUES 	('Male'),
+		('Female'),
+		('Other');
+				
 SELECT * FROM profession		
-SELECT * FROM my_contacts
 SELECT * FROM zip_code
 SELECT * FROM status
+SELECT * FROM my_contacts
 SELECT * FROM interests
+SELECT * FROM interests2
+SELECT * FROM seeking
