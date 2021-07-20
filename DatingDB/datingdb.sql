@@ -109,6 +109,14 @@ VALUES 	(1251,'Bhisho','Eastern Cape'),
 		(1743,'Springbok','Northern Cape'),
 		(2124,'Paarl','Western Cape');
 		
+INSERT INTO status (status)
+VALUES 	('Single'),
+		('Divorced'),
+		('Married'),
+		('Complicated'),
+		('Engaged');
+
 SELECT * FROM profession		
 SELECT * FROM my_contacts
 SELECT * FROM zip_code
+SELECT * FROM status
