@@ -163,6 +163,25 @@ VALUES 	('Male'),
 		('Female'),
 		('Other');
 				
+INSERT INTO my_contacts (last_name, first_name, phone, email, gender, birthday, prof_id, zip_code, status_id)
+VALUES 	('Smith','Mila','0675553211','msmith@gmail.com','Male','1985-01-10')
+		('Johnson','Mia','0682226543','johnson@gmail.com','Female','1999-07-20')
+		('Williams','Hunter','0693339876','hwilliams@gmail.com','Male','2000-03-15')
+		('Brown','Lucas','0657771234','brown@gmail.com','Male','1985-07-23')
+		('Jones','Paker','0648889854','pjones@gmail.com','Male','1975-11-25')
+		('Davis','Alice','0664588231','davis@gmail.com','Female','1988-02-02')
+		('Lopez','Sky','0630056782','lopez@gmail.com','Female','1978-08-19')
+		('Wilson','Logan','0624446670','lwilson@gmail.com','Male','1993-01-25')
+		('Thomas','Molly','0615678942','thomas@gmail.com','Female','2000-01-09')
+		('Taylor','Asher','0816587297','taylor@gmail.com','Male','1992-04-27')
+		('Martin','Leo','0876305618','martinl@gmail.com','Male','1994-05-11')
+		('Jackson','Noah','0721941635','jnoah@gmail.com','Male','1995-06-12')
+		('Lee','Willow','0795674432','wlee@gmail.com','Female','1997-07-13')
+		('White','Miles','0764231978','wmiles@gmail.com','Male','2001-10-10')
+		('Lewis','Bryan','0825556234','blewis@gmail.com','Male','2001-01-10')
+		('Walker','Paul','0789995425','walker@gmail.com','Male','1976-09-30')
+		('Queens','Olivia','0834446672','queens@gmail.com','Female','1999-11-01');
+
 SELECT * FROM profession		
 SELECT * FROM zip_code
 SELECT * FROM status
