@@ -25,9 +25,8 @@ CREATE TABLE zip_code (
 	CONSTRAINT zip_code_key PRIMARY KEY (zip_code),
 	CONSTRAINT check_zip_code CHECK (zip_code < 10000 )
 );
-
-DELETE FROM zip_code;
-DROP TABLE zip_code;
+--DELETE FROM zip_code;
+--DROP TABLE zip_code;
 
 CREATE TABLE status (
 	status_id bigserial,
@@ -94,7 +93,7 @@ INSERT INTO zip_code (zip_code, city, province )
 VALUES 	(1251,'Bhisho','Eastern Cape'),
 		(2976,'Bloemfontein','Free State'),
 		(3612,'Johannesburg','Gauteng'),
-		(2936,'	Pietermaritzburg','KwaZulu-Natal'),
+		(2936,'Pietermaritzburg','KwaZulu-Natal'),
 		(2354,'Polokwane','Limpopo'),
 		(3125,'Nelspruit','Mpumalanga'),
 		(4422,'Mahikeng','North West'),
@@ -118,7 +117,7 @@ VALUES 	('Single'),
 		('Engaged');
 				
 INSERT INTO my_contacts (last_name, first_name, phone, email, gender, birthday, prof_id, zip_code, status_id)
-VALUES 	('Smith','Mila','0675553211','msmith@gmail.com','Male','1985-01-10',1,1251,1),
+VALUES 	('Smith','Mila', '0675553211','msmith@gmail.com','Male','1985-01-10',1,1251,1),
 		('Johnson','Mia','0682226543','johnson@gmail.com','Female','1999-07-20',2,2976,2),
 		('Williams','Hunter','0693339876','hwilliams@gmail.com','Male','2000-03-15',3,3612,3),
 		('Brown','Lucas','0657771234','brown@gmail.com','Male','1985-07-23',4,2936,4),
@@ -199,6 +198,27 @@ VALUES 	(1,1),
 		(15,1),
 		(16,2),
 		(17,1);
+		
+SELECT con.last_name, con.first_name, con.phone, con.email, con.gender, con.birthday,
+		prof.profession,
+		zip.zip_code, zip.city, zip.province, 
+		stat.status, 
+		intr.interest,
+		seek.seeking
+FROM my_contacts con LEFT JOIN profession prof
+	ON con.prof_id = prof.prof_id
+LEFT JOIN zip_code zip
+	ON con.zip_code = zip.zip_code
+LEFT JOIN status stat
+	ON con.status_id = stat.status_id
+LEFT JOIN contact_interest cont
+	ON con.contact_id = cont.contact_id	
+LEFT JOIN interests intr
+	ON cont.interest_id = intr.interest_id
+LEFT JOIN contact_seeking contac
+	ON con.contact_id = contac.contact_id
+LEFT JOIN seeking seek
+	ON contac.seeking_id = seek.seeking_id;	
 
 SELECT * FROM profession		
 SELECT * FROM zip_code
