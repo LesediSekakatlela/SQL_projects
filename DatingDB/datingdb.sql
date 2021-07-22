@@ -60,8 +60,7 @@ CREATE TABLE contact_interest (
 	interest_id int REFERENCES interests (interest_id),
 	interest2_id int REFERENCES interests (interest_id)
 );
-
-DROP TABLE interests CASCADE 
+ 
 CREATE TABLE seeking(
 	seeking_id bigserial,
 	seeking varchar(50),
@@ -178,11 +177,28 @@ VALUES 	(1,1,2),
 		(17,17,1);
 --DROP TABLE contact_interest
 
-INSERT INTO seeking (seeking)
-VALUES 	('Male'),
-		('Female'),
-		('Other');	
-		
+INSERT INTO seeking(seeking)
+VALUES 	('A Friend'),
+		('Relationship');	
+
+INSERT INTO contact_seeking(contact_id,seeking_id)
+VALUES 	(1,1),
+		(2,1),
+		(3,2),
+		(4,1),
+		(5,2),
+		(6,1),
+		(7,2),
+		(8,1),
+		(9,1),
+		(10,1),
+		(11,2),
+		(12,1),
+		(13,2),
+		(14,2),
+		(15,1),
+		(16,2),
+		(17,1);
 
 SELECT * FROM profession		
 SELECT * FROM zip_code
@@ -191,3 +207,4 @@ SELECT * FROM my_contacts
 SELECT * FROM interests
 SELECT * FROM contact_interest
 SELECT * FROM seeking
+SELECT * FROM contact_seeking
