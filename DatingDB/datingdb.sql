@@ -55,18 +55,13 @@ CREATE TABLE interests(
 	CONSTRAINT interest_key PRIMARY KEY (interest_id)	
 );
 
-CREATE TABLE interests2(
-	interest2_id bigserial,
-	interest2 varchar(50),
-	CONSTRAINT interest2_key PRIMARY KEY (interest2_id)	
-);
-
 CREATE TABLE contact_interest (
 	contact_id int REFERENCES my_contacts (contact_id),
 	interest_id int REFERENCES interests (interest_id),
-	interest2_id int REFERENCES interests2 (interest2_id)
+	interest2_id int REFERENCES interests (interest_id)
 );
 
+DROP TABLE interests CASCADE 
 CREATE TABLE seeking(
 	seeking_id bigserial,
 	seeking varchar(50),
@@ -122,7 +117,7 @@ VALUES 	('Single'),
 		('Married'),
 		('Complicated'),
 		('Engaged');
-		
+				
 INSERT INTO my_contacts (last_name, first_name, phone, email, gender, birthday, prof_id, zip_code, status_id)
 VALUES 	('Smith','Mila','0675553211','msmith@gmail.com','Male','1985-01-10',1,1251,1),
 		('Johnson','Mia','0682226543','johnson@gmail.com','Female','1999-07-20',2,2976,2),
@@ -140,8 +135,10 @@ VALUES 	('Smith','Mila','0675553211','msmith@gmail.com','Male','1985-01-10',1,12
 		('White','Miles','0764231978','wmiles@gmail.com','Male','2001-10-10',14,6314,1),
 		('Lewis','Bryan','0825556234','blewis@gmail.com','Male','2001-01-10',15,5034,2),
 		('Walker','Paul','0789995425','walker@gmail.com','Male','1976-09-30',16,2319,5),
-		('Queens','Olivia','0834446672','queens@gmail.com','Female','1999-11-01',12,1518,2);
-	
+		('Queens','Olivia','0834446672','queens@gmail.com','Female','1999-11-01',12,1518,2);	
+--DROP TABLE my_contacts CASCADE
+--DELETE FROM my_contacts;
+
 INSERT INTO interests (interest)
 VALUES 	('Travelling'),
 		('Cooking'),
@@ -161,36 +158,36 @@ VALUES 	('Travelling'),
 		('Cart Racing'),
 		('Video Games');
 		
-INSERT INTO interests2 (interest2)
-VALUES 	('Reading'),
-		('Babysitting'),
-		('Beatboxing'),
-		('Candy Making'),
-		('Building'),
-		('Cleaning'),
-		('Collecting'),
-		('Diving'),
-		('Fashion'),
-		('Hacking'),
-		('Inventing'),
-		('Knot Tying'),
-		('Makeup'),
-		('Music'),
-		('Horse Ridin'),
-		('Camping'),
-		('Painting');
-		
-DELETE  FROM interests;
+INSERT INTO contact_interest(contact_id,interest_id,interest2_id)
+VALUES 	(1,1,2),
+		(2,2,4),
+		(3,3,6),
+		(4,4,8),
+		(5,5,10),
+		(6,6,12),
+		(7,7,14),
+		(8,8,16),
+		(9,9,11),
+		(10,10,13),
+		(11,11,15),
+		(12,12,7),
+		(13,13,9),
+		(14,14,11),
+		(15,15,3),
+		(16,16,5),
+		(17,17,1);
+--DROP TABLE contact_interest
 
 INSERT INTO seeking (seeking)
 VALUES 	('Male'),
 		('Female'),
-		('Other');				
+		('Other');	
+		
 
 SELECT * FROM profession		
 SELECT * FROM zip_code
 SELECT * FROM status
 SELECT * FROM my_contacts
 SELECT * FROM interests
-SELECT * FROM interests2
+SELECT * FROM contact_interest
 SELECT * FROM seeking
