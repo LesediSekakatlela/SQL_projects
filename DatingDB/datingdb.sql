@@ -217,8 +217,29 @@ LEFT JOIN interests intr
 LEFT JOIN contact_seeking contac
 	ON con.contact_id = contac.contact_id
 LEFT JOIN seeking seek
-	ON contac.seeking_id = seek.seeking_id;	
-
+	ON contac.seeking_id = seek.seeking_id;
+	
+SELECT con.last_name, con.first_name, con.phone, con.email, con.gender, con.birthday,
+		prof.profession,
+		zip.zip_code, zip.city, zip.province, 
+		stat.status, 
+		intr.interest,
+		seek.seeking
+FROM my_contacts con INNER JOIN profession prof
+	ON con.prof_id = prof.prof_id
+INNER JOIN zip_code zip
+	ON con.zip_code = zip.zip_code
+INNER JOIN status stat
+	ON con.status_id = stat.status_id
+INNER JOIN contact_interest cont
+	ON con.contact_id = cont.contact_id	
+INNER JOIN interests intr
+	ON cont.interest_id = intr.interest_id
+INNER JOIN contact_seeking contac
+	ON con.contact_id = contac.contact_id
+INNER JOIN seeking seek
+	ON contac.seeking_id = seek.seeking_id;
+	
 SELECT * FROM profession		
 SELECT * FROM zip_code
 SELECT * FROM status
