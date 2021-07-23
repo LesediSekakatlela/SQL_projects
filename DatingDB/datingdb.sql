@@ -56,8 +56,7 @@ CREATE TABLE interests(
 
 CREATE TABLE contact_interest (
 	contact_id int REFERENCES my_contacts (contact_id),
-	interest_id int REFERENCES interests (interest_id),
-	interest2_id int REFERENCES interests (interest_id)
+	interest_id int REFERENCES interests (interest_id)
 );
  
 CREATE TABLE seeking(
@@ -156,24 +155,24 @@ VALUES 	('Travelling'),
 		('Cart Racing'),
 		('Video Games');
 		
-INSERT INTO contact_interest(contact_id,interest_id,interest2_id)
-VALUES 	(1,1,2),
-		(2,2,4),
-		(3,3,6),
-		(4,4,8),
-		(5,5,10),
-		(6,6,12),
-		(7,7,14),
-		(8,8,16),
-		(9,9,11),
-		(10,10,13),
-		(11,11,15),
-		(12,12,7),
-		(13,13,9),
-		(14,14,11),
-		(15,15,3),
-		(16,16,5),
-		(17,17,1);
+INSERT INTO contact_interest(contact_id,interest_id)
+VALUES 	(1,1),
+		(2,2),
+		(3,3),
+		(4,4),
+		(5,5),
+		(6,6),
+		(7,7),
+		(8,8),
+		(9,9),
+		(10,10),
+		(11,11),
+		(12,12),
+		(13,13),
+		(14,14),
+		(15,15),
+		(16,16),
+		(17,17);
 --DROP TABLE contact_interest
 
 INSERT INTO seeking(seeking)
