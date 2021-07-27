@@ -112,6 +112,12 @@ CREATE TABLE songs (
 	album_id bigint
 );
 
+insert into animals(animal_type)
+values 	('Zebra'),
+		('Lion'),
+		('Hyena'),
+		('Hippo'),
+		('Springbok');
 ------
 
 		
