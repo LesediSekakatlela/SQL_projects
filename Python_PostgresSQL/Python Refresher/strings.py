@@ -1,8 +1,7 @@
 name = "Bob"
-#greeting = f"Hello, {name}"
+greeting = "Hello, {}"
+with_name = greeting.format(name)
+with_name_two = greeting.format("Rolf")
 
-print(f"Hello, {name}")
-
-name = "Rolf"
-print(f"Hello, {name}")
-
+print(with_name)
+print(with_name_two)
