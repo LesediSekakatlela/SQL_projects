@@ -1,7 +1,8 @@
 name = "Bob"
-greeting = "Hello,Bob"
+#greeting = f"Hello, {name}"
 
-print(greeting)
+print(f"Hello, {name}")
 
 name = "Rolf"
-print(greeting)
+print(f"Hello, {name}")
+
