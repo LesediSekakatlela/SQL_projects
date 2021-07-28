@@ -9,4 +9,5 @@ l.append("Chris")
 print(l)
 
 s.add("Chris")
+s.add("Chris")
 print(s)
