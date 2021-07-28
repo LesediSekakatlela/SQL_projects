@@ -7,3 +7,6 @@ print(l)
 
 l.append("Chris")
 print(l)
+
+s.add("Chris")
+print(s)
