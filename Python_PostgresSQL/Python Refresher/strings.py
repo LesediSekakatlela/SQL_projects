@@ -1,4 +1,8 @@
 name = "Bob"
+greeting = "Hello,Bob"
+print(greeting)
+
+name = "Bob"
 greeting = "Hello, {}"
 with_name = greeting.format(name)
 with_name_two = greeting.format("Rolf")
