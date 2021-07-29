@@ -16,3 +16,8 @@ people = [("Bob", 42, "Mechanic"), ("James", 24, "Artist"), ("Harry", 32, "Lectu
 
 for name, age, profession in people:
     print(f"Name: {name}, Age: {age}, Profession: {profession}")
+
+#4
+head, *tail = [1, 2, 3, 4, 5]
+print(head)
+print(tail)
