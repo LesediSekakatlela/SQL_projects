@@ -17,6 +17,13 @@ students_attendance = {"Rolf": 96, "Bob": 80, "Anne": 100}
 
 for student, attendance in students_attendance.items():
     print(f"{student}: {attendance}")
-    
+
 #3.1
 students_attendance = {"Rolf": 96, "Bob": 80, "Anne": 100}
+
+if "Bob" in students_attendance:
+    print(f"Bob: {students_attendance['Bob']}")
+else:
+    print("Bob is not a student in this class")
+
+#3.2
