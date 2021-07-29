@@ -1,5 +1,5 @@
-local = {"Rolf"}
-abroad = {"Bob","Anne"}
+art = {"Bob","Jen","Rolf","Chris"}
+science = {"Bob","Jen","Paul","Anne"}
 
-friends = local.union(abroad)
-print(friends)
+both = art.intersection(science)
+print(both)
