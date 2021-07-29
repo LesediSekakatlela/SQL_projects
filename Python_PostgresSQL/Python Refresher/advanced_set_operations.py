@@ -1,5 +1,5 @@
-friends = {"Bob","Rolf","Anne"}
+local = {"Rolf"}
 abroad = {"Bob","Anne"}
 
-local_friends = friends.difference(friends)
-print(local_friends)
+friends = local.union(abroad)
+print(friends)
