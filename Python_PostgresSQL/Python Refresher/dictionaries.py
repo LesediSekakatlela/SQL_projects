@@ -13,3 +13,10 @@ friends = [
 print(friends)
 
 #3
+students_attendance = {"Rolf": 96, "Bob": 80, "Anne": 100}
+
+for student, attendance in students_attendance.items():
+    print(f"{student}: {attendance}")
+    
+#3.1
+students_attendance = {"Rolf": 96, "Bob": 80, "Anne": 100}
