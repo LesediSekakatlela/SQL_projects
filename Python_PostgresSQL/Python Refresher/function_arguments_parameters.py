@@ -5,7 +5,16 @@ def add(x, y):
 add(5, 3)
 
 #2
-def say_hello(name):
-    print(f"Hello, {name}")
+def say_hello(name, surname):
+    print(f"Hello, {name} {surname}")
 
-say_hello("Bob") 
+say_hello("Bob", "Smith") 
+
+#3
+def divide(dividend, divisor):
+    if divisor != 0:
+        print(dividend / divisor)
+    else:
+        print("You fool!")
+
+divide(dividend=15, divisor=0)
