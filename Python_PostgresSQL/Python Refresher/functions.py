@@ -7,3 +7,11 @@ print("Welcome to the age in seconds program!")
 user_age_in_seconds()
 
 print("Goodbye!")
+
+#2
+def add_friend():
+    friends.append("Rolf")
+
+friends = []
+add_friend()
+print(friends)
