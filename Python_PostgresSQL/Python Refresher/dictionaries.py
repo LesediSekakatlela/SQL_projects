@@ -26,4 +26,3 @@ if "Bob" in students_attendance:
 else:
     print("Bob is not a student in this class")
 
-#3.2
