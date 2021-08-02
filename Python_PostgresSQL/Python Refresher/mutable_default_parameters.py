@@ -1,9 +1,10 @@
-from typing import List
+from typing import List, Optional
+
 #a parameter should not be equal to a mutable value,the default list will apply to all students =[]
 class Student:
-    def __init__(self, name: str, grades: List[int] = []): #This is bad!                                   
+    def __init__(self, name: str, grades: Optional[List[int]] = None): #This is bad!                                   
         self.name = name
-        self.grades = grades
+        self.grades = grades or []
 
     def take_exam(self, result: int):
         self.grades.append(result)
