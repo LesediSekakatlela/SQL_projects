@@ -66,6 +66,7 @@ def search_movies(search_term):
     with connection:
         cursor = connection.cursor()
         cursor.execute(SEARCH_MOVIES, (f"%{search_term}%",))
+        return cursor.fetchall()
 
 def watch_movie(username, movie_id):
     with connection:
