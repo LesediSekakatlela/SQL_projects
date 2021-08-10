@@ -1,84 +1,97 @@
-import datetime
+import os
+from typing import List
+
+import psycopg2
+from psycopg2.errors import DivisionByZero
+from dotenv import load_dotenv
 import database
 
-menu = """PLease select one of the following options:
-1)Add new movie.
-2)View upcoming movies.
-3)View all movies
-4)Watch a movie
-5)View watched movies.
-6)Add user to the app.
-7)Search for a movie.
-8)Exit.
-Your selection: """
-welcome = "Welcome to the wachlist app!"
+DATABASE_PROMPT = "Enter the DATABASE_URI value or leave to load from .env file:"
 
+MENU_PROMPT = """-- Menu --
 
-print(welcome)
-database.create_tables()
+1) Create new poll
+2) List open polls
+3) Vote on a poll
+4) Show poll votes
+5) Select a random winner from a poll option
+6)Exit
 
-def prompt_add_movie():
-    title = input("Movies title: ")
-    release_date = input("Release date (dd-mm-YYYY): ")
-    parsed_date = datetime.datetime.strptime(release_date, "%d-%m-%Y")
-    timestamp = parsed_date.timestamp()
+Enter your choice: """
 
-    database.add_movie(title, timestamp)
+NEW_OPTION_PROMPT = "Enter new option text (or leave empty to stop adding options):"
 
+def prompt_create_poll(connection):
+    poll_title = input("Enter poll title: ")
+    poll_owner = input("Enter poll owner: ")
+    options = []
 
-def print_movie_list(heading, movies):
-    print(f"-- {heading} movies --")
-    for _id,title, release_date in movies:
-        movie_date = datetime.datetime.fromtimestamp(release_date)
-        human_date = movie_date.strftime("%b %d %Y")
-        print(f"{_id}: {title} (on {human_date})")
-    print("---- \n")
+    while new_option := input(NEW_OPTION_PROMPT):
+        options.append(new_option)
 
+    database.create_poll(connection, poll_title, poll_owner, options)
 
+def list_open_polls(connection):
+    polls = database.get_polls(connection)
 
+    for _id, title, owner in polls:
+        print(f"{_id}:{title} (created by {owner})")
 
-def prompt_watch_movie():
-    username = input("Username: ")
-    movie_id = input("Movie ID: ")
-    database.watch_movie(username, movie_id)
+def prompt_vote_poll(connection):
+    poll_id = int(input("Enter poll would you like to vote on:"))
 
-def prompt_show_watched_movies():
-    username = input("Username: ")
-    movies = database.get_watched_movies(username)
-    if movies:
-        print_movie_list("Watched", movies)
+    poll_options = database.get_poll_details(connection, poll_id)
+    _print_poll_options(poll_options)
+
+    option_id = int(input("Enter option you'd like to vote for: "))
+    username = input("Enter the username you'd like to vote as: ")
+    database.add_poll_vote(connection, username, option_id)
+
+def _print_poll_options(poll_with_options: List[database.PollWithOption]):
+    for option in poll_with_options:
+        print(f"{option[3]}: {option[4]}")
+
+def show_poll_votes(connection):
+    poll_id = int(input("Enter poll you would like to see votes for: "))
+    try:
+        # This gives us count and percentage of votes for each option in a poll
+        poll_and_votes = database.get_poll_and_vote_results(connection, poll_id)
+    except DivisionByZero:
+        print("No votes yet cast for this poll.")
     else:
-        print("That user has watched no movies yet!")
+        for _id, option_text, count, percentage in poll_and_votes:
+            print(f"{option_text} got {count} votes ({percentage:.2f}% of total)")
 
+def randomize_poll_winner(connection):
+    poll_id = int(input("Enter poll you'd like to pick a winner for: "))
+    poll_options = database.get_poll_details(connection, poll_id)
+    _print_poll_options(poll_options)
 
-def prompt_search_movies():
-    search_term = input("Enter the partial movie title: ")
-    movies = database.search_movies(search_term)
-    if movies:
-        print_movie_list("Movies found", movies)
-    else:
-        print("Found no movies for that search term!")
+    option_id = int(input("Enter which is the winning option, we'll pick a random winner from votes: "))
+    winner = database.get_random_poll_vote(connection, option_id)
+    print(f"The randomly selected winner is {winner[0]}. ")
 
-def prompt_add_user():
-    username = input("Username: ")
-    database.add_user(username)
+MENU_OPTIONS = {
+    "1": prompt_create_poll,
+    "2": list_open_polls,
+    "3": prompt_vote_poll,
+    "4": show_poll_votes,
+    "5": randomize_poll_winner
+}
 
-while (user_input := input(menu)) != "8":
-    if user_input == "1":
-        prompt_add_movie()
-    elif user_input == "2":
-        movies = database.get_movies(True)
-        print_movie_list("Upcoming", movies)
-    elif user_input == "3":
-        movies = database.get_movies()
-        print_movie_list("All", movies)
-    elif user_input == "4":
-        prompt_watch_movie()
-    elif user_input == "5":
-        prompt_show_watched_movies()
-    elif user_input == "6":
-        prompt_add_user()
-    elif user_input == "7":
-        prompt_search_movies()
-    else:
-        print("Invalid option, please try again!")
+def menu():
+    database_uri = input(DATABASE_PROMPT)
+    if not database_uri:
+        load_dotenv()
+        database_uri = os.environ["DATABASE_URI"]
+
+    connection = psycopg2.connect(database_uri)
+    database.create_tables(connection)
+
+    while (selection := input(MENU_PROMPT)) != "6":
+        try:
+            MENU_OPTIONS[selection](connection)
+        except KeyError:
+            print("Invalid input selected. please try again.")
+
+menu()
