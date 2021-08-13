@@ -21,6 +21,7 @@ class Poll:
     def add_option(self, option_text: str):
         Option(option_text, self.id).save()
     
+
     @property
     def options(self) -> List[Option]:
         with get_connection() as connection:

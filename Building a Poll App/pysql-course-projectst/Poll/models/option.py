@@ -1,4 +1,6 @@
 from typing import List
+import datetime
+import pytz
 from connection_pool import get_connection
 import database
 
@@ -18,8 +20,10 @@ class Option:
             self.id = new_option_id
     
     def vote(self, username: str):
+        current_datetime_utc = datetime.datetime.now(tz=pytz.utc)
+        current_timestamp = current_datetime_utc.timestamp()
         with get_connection() as connection:
-            database.add_poll_vote(connection, username, self.id)
+            database.add_poll_vote(connection, username, current_timestamp, self.id)
     
     @property
     def votes(self) -> List[database.Vote]:

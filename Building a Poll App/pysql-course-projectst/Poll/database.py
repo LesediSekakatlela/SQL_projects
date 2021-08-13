@@ -1,19 +1,18 @@
-from typing import List, Tuple, Callable
-import functools
+from typing import List, Tuple
 from contextlib import contextmanager
-
-from psycopg2.extras import execute_values
 
 
 Poll = Tuple[int, str, str]
 Option = Tuple[int, str, int]
 Vote = Tuple[str, int]
-PollResults = Tuple[int, str, int, float]
 
 
-CREATE_POLLS = "CREATE TABLE IF NOT EXISTS polls (id SERIAL PRIMARY KEY, title TEXT, owner_username TEXT);"
-CREATE_OPTIONS = "CREATE TABLE IF NOT EXISTS options (id SERIAL PRIMARY KEY, option_text TEXT, poll_id INTEGER);"
-CREATE_VOTES = "CREATE TABLE IF NOT EXISTS votes (username TEXT, option_id INTEGER);"
+CREATE_POLLS = """CREATE TABLE IF NOT EXISTS polls
+(id SERIAL PRIMARY KEY, title TEXT, owner_username TEXT);"""
+CREATE_OPTIONS = """CREATE TABLE IF NOT EXISTS options
+(id SERIAL PRIMARY KEY, option_text TEXT, poll_id INTEGER, FOREIGN KEY(poll_id) REFERENCES polls (id));"""
+CREATE_VOTES = """CREATE TABLE IF NOT EXISTS votes
+(username TEXT, option_id INTEGER, vote_timestamp INTEGER, FOREIGN KEY (option_id) REFERENCES options (id));"""
 
 
 SELECT_ALL_POLLS = "SELECT * FROM polls;"
@@ -30,7 +29,7 @@ SELECT_VOTES_FOR_OPTION = "SELECT * FROM votes WHERE option_id = %s;"
 
 INSERT_POLL_RETURN_ID = "INSERT INTO polls (title, owner_username) VALUES (%s, %s) RETURNING id;"
 INSERT_OPTION = "INSERT INTO options (option_text, poll_id) VALUES (%s, %s) RETURNING id;"
-INSERT_VOTE = "INSERT INTO votes (username, option_id) VALUES (%s, %s);"
+INSERT_VOTE = "INSERT INTO votes (username, option_id, vote_timestamp) VALUES (%s, %s, %s);"
 
 
 @contextmanager
@@ -50,7 +49,7 @@ def create_tables(connection):
 # -- polls --
 
 
-def create_poll(connection, title: str, owner: str) -> int:
+def create_poll(connection, title: str, owner: str):
     with get_cursor(connection) as cursor:
         cursor.execute(INSERT_POLL_RETURN_ID, (title, owner))
 
@@ -105,6 +104,6 @@ def get_votes_for_option(connection, option_id: int) -> List[Vote]:
         return cursor.fetchall()
 
 
-def add_poll_vote(connection, username: str, option_id: int):
+def add_poll_vote(connection, username: str, vote_timestamp: float, option_id: int):
     with get_cursor(connection) as cursor:
-        cursor.execute(INSERT_VOTE, (username, option_id))
+        cursor.execute(INSERT_VOTE, (username, option_id, vote_timestamp))

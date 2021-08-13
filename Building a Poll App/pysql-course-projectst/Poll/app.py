@@ -1,11 +1,13 @@
 from typing import List
 import random
-
+import datetime
+import pytz
 import database
-from models.option import Option
 from models.poll import Poll
+from models.option import Option
 from connection_pool import get_connection
 
+DATABASE_PROMPT = "Enter the DATABASE_URI value or leave empty to load from.env file: "
 
 MENU_PROMPT = """-- Menu --
 
@@ -43,7 +45,6 @@ def prompt_vote_poll():
 
     option_id = int(input("Enter option you'd like to vote for: "))
     username = input("Enter the username you'd like to vote as: ")
-
     Option.get(option_id).vote(username)
 
 
@@ -62,10 +63,24 @@ def show_poll_votes():
     try:
         for option, votes in zip(options, votes_per_option):
             percentage = votes / total_votes * 100
-            percentage = votes / total_votes * 100
             print(f"{option.text} for {votes} ({percentage:.2f}% of total)")
     except ZeroDivisionError:
         print("No votes yet cast for this poll.")
+    
+    vote_log = input("Would you like to see the vote log? (y/N) ")
+
+    if vote_log == "y":
+        _print_votes_for_options(options)
+
+
+def _print_votes_for_options(options: List[Option]):
+    for option in options:
+        print(f"-- {option.text} --")
+        for vote in option.votes:
+            naive_datetime = datetime.datetime.utcfromtimestamp(vote[2])
+            utc_date = pytz.utc.localize(naive_datetime)
+            local_date = utc_date.astimezone(pytz.timezone("Europe/London")).strftime("%Y-%m-%d %H:%M")
+            print(f"\t- {vote[0]} on {local_date}")
 
 
 def randomize_poll_winner():
