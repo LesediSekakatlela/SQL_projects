@@ -68,7 +68,7 @@ SELECT *, opened_ago(email_opens) FROM email_opens;
 
 SELECT *, opened_ago(email_opens) FROM users
 JOIN email_opens ON users.id = email_opens.user_id
-WHERE opened_ago(email_opens) < 17509903;
+WHERE opened_ago(email_opens) < 70000000;
 
 SELECT * FROM users;
 SELECT * FROM emails;
