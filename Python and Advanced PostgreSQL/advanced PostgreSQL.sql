@@ -45,14 +45,16 @@ VALUES	(3, 2, 1572393600),
 		(1, 1, 1572393600);
 
 
-CREATE OR REPLACE FUNCTION delete_inactive(seconds numeric) RETURNS bigint AS $$
-	WITH deleted AS (DELETE FROM users WHERE last_opened > seconds RETURNING *)
-	SELECT COUNT(*) FROM deleted;
+CREATE OR REPLACE FUNCTION opened_ago(email_open_row email_opens) RETURNS INTEGER AS $$
+	SELECT cast(extract(epoch FROM CURRENT_TIMESTAMP) AS INTEGER) - email_open_row.opened_time AS email_opened_ago;
 $$ LANGUAGE SQL;
+	
+SELECT *, opened_ago(email_opens) FROM email_opens;
 
+SELECT *, opened_ago(email_opens) FROM users
+JOIN email_opens ON users.id = email_opens.user_id
+WHERE opened_ago(email_opens) < 17509903;
 
-DROP FUNCTION delete_inactive(numeric);
-SELECT delete_inactive(86400);
 SELECT * FROM users;
 SELECT * FROM emails;
 SELECT * FROM email_opens;
