@@ -27,6 +27,7 @@ VALUES	(1, 'This is a test e-mail'),
 		(2, 'Another test e-mail'),
 		(3, 'We should really write longer e-mails');
 
+
 CREATE TABLE email_opens(
 	email_id INTEGER,
 	user_id INTEGER,
@@ -48,7 +49,21 @@ VALUES	(3, 2, 1572393600),
 CREATE OR REPLACE FUNCTION opened_ago(email_open_row email_opens) RETURNS INTEGER AS $$
 	SELECT cast(extract(epoch FROM CURRENT_TIMESTAMP) AS INTEGER) - email_open_row.opened_time AS email_opened_ago;
 $$ LANGUAGE SQL;
-	
+
+
+CREATE PROCEDURE insert_test_data() AS $$
+BEGIN
+	CREATE TABLE test_data (id INTEGER, name TEXT);
+	INSERT INTO test_data VALUES (1, 'Bob');
+	INSERT INTO test_data VALUES (2, 'Rolf');
+	COMMIT;
+END;
+$$ LANGUAGE plpgsql;
+
+CALL insert_test_data();
+
+
+SELECT * FROM test_data;
 SELECT *, opened_ago(email_opens) FROM email_opens;
 
 SELECT *, opened_ago(email_opens) FROM users
@@ -58,6 +73,5 @@ WHERE opened_ago(email_opens) < 17509903;
 SELECT * FROM users;
 SELECT * FROM emails;
 SELECT * FROM email_opens;
-
 SELECT * FROM email_opens JOIN users ON email_opens.user_id = users.id;
 
