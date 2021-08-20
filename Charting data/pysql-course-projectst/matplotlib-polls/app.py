@@ -12,13 +12,17 @@ figure.subplots_adjust(bottom=0.35)
 axes = figure.add_subplot()
 axes.bar(
     poll_x_coordinates,
-    poll_men
+    poll_men,
+    label="Men"
 )
 axes.bar(
     poll_x_coordinates,
     poll_women,
-    bottom=poll_men
+    bottom=poll_men,
+    label="Women"
 )
+
+axes.legend()
 
 plt.xticks(poll_x_coordinates, poll_titles, rotation=30, ha="right")
 
