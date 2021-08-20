@@ -25,4 +25,4 @@ axes.legend((men_plot, women_plot), ("Men", "Women"))
 
 plt.xticks(poll_x_coordinates, poll_titles, rotation=30, ha="right")
 
-plt.show()
+figure.savefig("graph.png")
