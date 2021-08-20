@@ -10,19 +10,18 @@ poll_x_coordinates = range(len(polls))
 figure = plt.figure(figsize=(6, 6))
 figure.subplots_adjust(bottom=0.35)
 axes = figure.add_subplot()
-axes.bar(
+
+men_plot = axes.bar(
     poll_x_coordinates,
     poll_men,
-    label="Men"
 )
-axes.bar(
+women_plot = axes.bar(
     poll_x_coordinates,
     poll_women,
     bottom=poll_men,
-    label="Women"
 )
 
-axes.legend()
+axes.legend((men_plot, women_plot), ("Men", "Women"))
 
 plt.xticks(poll_x_coordinates, poll_titles, rotation=30, ha="right")
 
